@@ -1,0 +1,6 @@
+[submodule "lib/curl"]
+	path = lib/curl
+	url = https://github.com/shuber/curl.git
+[submodule "lib/slim"]
+	path = lib/slim
+	url = https://github.com/codeguy/Slim.git

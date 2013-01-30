@@ -11,4 +11,9 @@ $app->get('/', function () use ($app) {
         'name'  => $app->getName(),
     ));
 });
+$app->get('/:blog', function($blog) use ($app) {
+    var_dump($blog);
+})->conditions(array(
+    'blog' => '\w+\.tumblr\.com'
+));
 $app->run();

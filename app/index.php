@@ -1,4 +1,5 @@
 <?php
+$config = require_once __DIR__.'/../config/main.php';
 require __DIR__.'/../lib/slim/Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 

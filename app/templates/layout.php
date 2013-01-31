@@ -27,7 +27,9 @@
 <body>
     <script type="text/x-handlebars">
         <header class="row">
-            {{#linkTo "index"}}<h1 class="twelve columns"><?php echo $name; ?></h1>{{/linkTo}}
+            <div class="twelve columns">
+                <h1>{{#linkTo "index"}}<?php echo $name; ?>{{/linkTo}}</h1>
+            </div>
             <hr />
         </header>
 

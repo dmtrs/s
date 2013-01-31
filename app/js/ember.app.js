@@ -1,7 +1,9 @@
 window.App = Ember.Application.create();
+
 window.App.Router.map(function() {
     this.route("about");
 });
+
 window.App.AboutController = Ember.Controller.extend({
     fname: 'About!!'
 });

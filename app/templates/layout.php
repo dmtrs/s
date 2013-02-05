@@ -19,22 +19,37 @@
     <!-- Included CSS Files (Compressed) -->
     <link rel="stylesheet" href="css/foundation.min.css">
     <link rel="stylesheet" href="css/app.css">
-    <script type="text/x-handlebars" data-template-name="application">
-    Test
-    </script>
     <script src="js/jquery.js"></script>
     <script src="js/handlebars-1.0.rc.2.js"></script>
     <script src="js/ember-1.0.0-pre.4.min.js"></script>
     <script src="js/modernizr.foundation.js"></script>
 </head>
 <body>
-    <div class="row">
-        <div class="twelve columns">
-            <h2><?php echo $name; ?></h2>
-        <hr />
-    </div>
+    <script type="text/x-handlebars">
+        <header class="row">
+            <div class="twelve columns">
+                <h1>{{#linkTo "index"}}<?php echo $name; ?>{{/linkTo}}</h1>
+            </div>
+            <hr />
+        </header>
 
-    <!-- Included JS Files (Compressed) -->
+        {{outlet}}
+
+        <footer class="row">
+            <hr />
+            <nav class="twelve columns">
+                <ul>
+                    <li>{{#linkTo "about"}}About{{/linkTo}}</li>
+                </ul>
+            </nav>
+        </footer>
+    </script>
+    <script type="text/x-handlebars" data-template-name="about-template">
+        <div class="row">
+            {{fname}}
+        </div>
+    </script>
+    <script src="js/ember.app.js"></script>
     <script src="js/foundation.min.js"></script>
 </body>
 </html>

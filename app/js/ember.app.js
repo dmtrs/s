@@ -1,13 +1,20 @@
-window.App = Ember.Application.create();
+var App = Ember.Application.create();
 
-window.App.Router.map(function() {
+App.Store = DS.Store.extend({
+    revision: 11
+});
+App.Post = DS.Model.extend({
+    id: DS.attr('number')
+});
+
+App.Router.map(function() {
     this.route("about");
 });
 
-window.App.AboutController = Ember.Controller.extend({
+App.AboutController = Ember.Controller.extend({
     fname: 'About!!'
 });
-window.App.AboutRoute = Ember.Route.extend({
+App.AboutRoute = Ember.Route.extend({
     renderTemplate: function() {
         this.render('about-template');
     }

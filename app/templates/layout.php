@@ -49,6 +49,7 @@
             {{fname}}
         </div>
     </script>
+    <script src="js/ember/data/ember-data.js"></script>
     <script src="js/ember.app.js"></script>
     <script src="js/foundation.min.js"></script>
 </body>

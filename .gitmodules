@@ -4,3 +4,6 @@
 [submodule "lib/slim"]
 	path = lib/slim
 	url = https://github.com/codeguy/Slim.git
+[submodule "lib/ember-data"]
+	path = lib/ember-data
+	url = https://github.com/emberjs/data.git

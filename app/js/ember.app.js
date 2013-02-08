@@ -1,7 +1,7 @@
 var App = Ember.Application.create();
 
 App.Store = DS.Store.extend({
-    revision: 11
+    revision: 11,
 });
 App.Post = DS.Model.extend({
     id: DS.attr('number')
@@ -12,7 +12,7 @@ App.Router.map(function() {
 });
 
 App.AboutController = Ember.Controller.extend({
-    fname: 'About!!'
+    fname: 'Wtf!!'
 });
 App.AboutRoute = Ember.Route.extend({
     renderTemplate: function() {

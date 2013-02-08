@@ -24,22 +24,39 @@ $app->get('/:blog(/:post)', function($blog, $post=null) use ($app) {
 
 $app->run();
 //functions
-function get($url, $params=array(), $api_key=null) {
+function get($url, $params=array(), $api_key=null)
+{
     
     $ch = curl_init();
     $url = $url.'?'.http_build_query($params);
-
+    
     curl_setopt($ch, CURLOPT_URL, $url );
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+    curl_setopt($ch, CURLOPT_TIMEOUT, '30');
 
     $content = curl_exec($ch);
     curl_close($ch);
     return $content;
 }
 
-function retrieve($blog, $post=null, $api_key=null) {
-    $source = __DIR__.'/../data/'.$blog.'.'.(($post!==null)?$post:'').'.json';
+function formatPost($post)
+{
+    $r = (object)array(
+        'blog_name'   => $post->blog_name,
+        'timestamp'   => $post->timestamp,
+    );
+    $r->id  = (isset($post->id)) ? $post->id : $post->post_id;
+    $r->url = implode('/',array('http://staging.stamblr.com', $post->blog_name.'.tumblr.com', $r->id));
+
+    $r->notes_count = (isset($post->note_count)) ? $post->note_count : null;
+    $r->reblog_key  = (isset($post->reblog_key)) ? $post->reblog_key : null;
+
+    return $r;
+}
+
+function retrieve($blog, $post=null, $api_key=null)
+{
+    $source = __DIR__.'/../data/'.$blog.(($post!==null) ? '.'.$post:'').'.json';
     if(!isset($_GET['debug']) && file_exists($source)) {
         $content = file_get_contents($source);
     } else {
@@ -56,34 +73,18 @@ function retrieve($blog, $post=null, $api_key=null) {
         $content = get('http://api.tumblr.com/v2/blog/'.$blog.'/posts', $params);
         file_put_contents($source, $content);
     }
-    $provider = (object)json_decode($content);
-    
-    $provider = $provider->response;
-
-    $posts = $provider->posts;
+    $json = (object)json_decode($content);
 
     return array_map(function($p) {
-        $post = (object)array(
-            'id'          => $p->id,
-            'blog_name'   => $p->blog_name,
-            'notes_count' => $p->note_count,
-            'timestamp'   => $p->timestamp,
-            'url'         => implode('/',array('http://staging.stamblr.com', $p->blog_name.'.tumblr.com', $p->id)),
-        );
-        
+        $post = formatPost($p);
+
         if(isset($p->notes)) {
-            $post->reblogs = array_map(function($reblog) use($post) {
-                $r = array(
-                    'id' => $reblog->post_id,
-                    'blog_name' => $reblog->blog_name,
-                    'timestamp' => $reblog->timestamp,
-                    'url'       => implode('/',array('http://staging.stamblr.com', $reblog->blog_name.'.tumblr.com', $reblog->post_id)),
-                );
-                return $r;
-            }, array_filter($p->notes,function($note) {
-                return $note->type=='reblog';
-            }));
+            foreach($p->notes as $reblog)
+            {
+                if($reblog->type=='reblog')
+                    $post->reblogs[] = formatPost($reblog);
+            }
         }
         return $post;
-    }, $provider->posts);
+    }, $json->response->posts);
 }

@@ -19,10 +19,12 @@
     <!-- Included CSS Files (Compressed) -->
     <link rel="stylesheet" href="css/foundation.min.css">
     <link rel="stylesheet" href="css/app.css">
-    <script src="js/jquery.js"></script>
+    
+    <script src="js/jquery-1.8.0.min.js"></script>
     <script src="js/handlebars-1.0.rc.2.js"></script>
-    <script src="js/ember-1.0.0-pre.4.min.js"></script>
-    <script src="js/modernizr.foundation.js"></script>
+    <script src="js/ember-1.0.0-pre.4.js"></script>
+    <script src="js/ember/data/ember-data.js"></script>
+    <!--<script src="js/modernizr.foundation.js"></script>-->
 </head>
 <body>
     <script type="text/x-handlebars">
@@ -49,8 +51,8 @@
             {{fname}}
         </div>
     </script>
-    <script src="js/ember/data/ember-data.js"></script>
+
     <script src="js/ember.app.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <!--<script src="js/foundation.min.js"></script>-->
 </body>
 </html>

@@ -4,3 +4,6 @@
 [submodule "lib/slim"]
 	path = lib/slim
 	url = https://github.com/codeguy/Slim.git
+[submodule "lib/predis"]
+	path = lib/predis
+	url = https://github.com/nrk/predis.git

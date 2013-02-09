@@ -7,3 +7,6 @@
 [submodule "lib/ember-data"]
 	path = lib/ember-data
 	url = https://github.com/emberjs/data.git
+[submodule "lib/predis"]
+	path = lib/predis
+	url = https://github.com/nrk/predis.git

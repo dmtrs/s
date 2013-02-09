@@ -18,10 +18,11 @@ $app->get('/', function () use ($app) {
 $app->get('/:blog(/:post)', function($blog, $post=null) use ($app) {
     $r = $app->response();
     $r['Content-Type'] = 'application/json';
-    echo json_encode(array_map(function($post) {
-        return format($post);
-    }, posts($blog, $post, $app->config('components.tumblr.api_key'))
-    ));
+    echo json_encode(
+        array_map(function($post) {
+            return format($post);
+        }, posts($blog, $post, $app->config('components.tumblr.api_key')))
+    );
 })->conditions(array('blog' => '\w+\.tumblr\.com'));
 
 $app->run();
@@ -41,12 +42,18 @@ function get($url, $params=array(), $api_key=null)
     return $content;
 }
 
-function format($post, $with_notes=true)
+function formatBasic($post)
 {
     $r = (object)array(
         'blog_name'   => $post->blog_name,
         'timestamp'   => $post->timestamp,
     );
+    $r->blog_url = url($r->blog_name);
+    return $r;
+}
+function format($post, $with_notes=true)
+{
+    $r = formatBasic($post);
     $r->id  = (isset($post->id)) ? $post->id : $post->post_id;
     $r->url = url($post->blog_name, $r->id);
 
@@ -70,17 +77,20 @@ function format($post, $with_notes=true)
     }
     //reblogs
     if($with_notes && isset($post->notes)) {
-        foreach($post->notes as $reblog)
+        foreach($post->notes as $note)
         {
-            if($reblog->type=='reblog')
-                $r->reblogs[] = format($reblog);
+            if($note->type=='note')
+                $r->reblogs[] = format($note);
+
+            if($note->type=='like')
+                $r->likes[]   = formatBasic($note);
         }
     }
 
     return $r;
 }
 
-function url($name, $id)
+function url($name, $id=null)
 {
     $parts = array(
         'http://staging.stamblr.com',

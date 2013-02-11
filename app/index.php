@@ -3,7 +3,12 @@ $config = require_once __DIR__.'/../config/main.php';
 require __DIR__.'/../lib/slim/Slim/Slim.php';
 \Slim\Slim::registerAutoloader();
 
-$app = new \Slim\Slim();
+require __DIR__.'/../lib/slim-extras/Views/Mustache.php';
+\Slim\Extras\Views\Mustache::$mustacheDirectory = __DIR__.'/../lib/mustache/src/Mustache';
+
+$app = new \Slim\Slim(array(
+    'view' => new \Slim\Extras\Views\Mustache()
+));
 $app->setName('Web application');
 
 $app->get('/', function () use ($app) {

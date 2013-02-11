@@ -7,3 +7,9 @@
 [submodule "lib/predis"]
 	path = lib/predis
 	url = https://github.com/nrk/predis.git
+[submodule "lib/slim-extras"]
+	path = lib/slim-extras
+	url = http://github.com/codeguy/Slim-Extras.git
+[submodule "lib/mustache"]
+	path = lib/mustache
+	url = http://github.com/bobthecow/mustache.php.git
